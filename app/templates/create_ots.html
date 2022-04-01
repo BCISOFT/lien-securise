@@ -1,0 +1,110 @@
+{% extends "default.html" %}
+
+
+{% block formulaire %}
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+
+      <h1>Creer un nouveau message privé</h1>
+      <hr>
+      {# Formulaire de saisi du message #}
+        <form id="ots_form" action="#" method="post" class="mb-3">
+            <div class="form-group">
+                 <label for="message">Ecrivez votre message ici</label>
+                <textarea class="form-control" name="ots_content" id="ots_content" rows="5" cols="30" placeholder="your secret content"></textarea>
+            </div>
+            <div class="form-group">
+                <input type="hidden" name="ots_id" value="{{ ots_id }}" id="ots_id"/>
+                <input type="hidden" name="ots_key1" value="{{ ots_key1 }}" id="ots_key1"/>
+                <input type="hidden" name="ots_key2" value="{{ ots_key2 }}" id="ots_key2"/>
+            </div>
+            <button type="submit" class="btn-primary" id="submit" >Creer un lien privé</button>
+        </form>
+
+        <div id="link2ots" style="display: none">
+            <h4>Partager ce lien</h4>
+            <div class="alert alert-info" role="alert" id="link_to_secret" readonly = "readonly"></div>
+            <h4>et votre mot de passe</h4>
+            <div class="alert alert-info" role="alert" id="link_to_pwd" readonly = "readonly"></div>
+        </div>
+        <pre id="output"></pre>
+      {#Fin Formulaire de saisi du message #}
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+
+{%  block script %}
+    <script>
+$(document).ready(function () {
+
+    // A function for generating a random 18 characters long string
+    $.fn.generate_string = function (len) {
+        var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789$";
+        // Use seedrandom.js to create autoseeded PRNG--help
+        Math.seedrandom();
+        var str = "";
+        for (var i = 0; i < len; i++) {
+            str += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return str;
+    };
+
+
+    $("#submit").click(function (e) {
+        e.preventDefault();
+        var ots_id = document.getElementById("ots_id");
+        var ots_content = document.getElementById("ots_content");
+        var ots_key1 = btoa($.fn.generate_string(18, "all"));
+        var ots_key2 = btoa($.fn.generate_string(18, "all"));
+        var monCipher = btoa(sjcl.encrypt(ots_key1 + ots_key2, ots_content.value));
+        var monPlaint = sjcl.decrypt(ots_key1 + ots_key2, atob(monCipher));
+
+        var dicCipher = atob(monCipher);
+
+        var ots_link = document.getElementById("link_to_secret");
+        var ots_pwd= document.getElementById("link_to_pwd");
+
+        var secret = {
+            ots_id: ots_id.value,
+            ots_content: monCipher,
+            ots_key2: ots_key2
+        };
+        fetch('/create-secret', {
+            method: 'POST',
+            credentials: "include",
+            body: JSON.stringify(secret),
+            cache: "no-cache",
+            headers: new Headers({
+                "content-type": "application/json"
+            })
+        })
+            .then(function (response) {
+                if (response.status !== 200) {
+                    console.log('Looks like there was a problem. Status code: ${response.status}');
+                    return;
+                }
+                response.json().then(function (data) {
+                    $('#link2ots').show();
+                    ots_id = ots_id.value;
+                    ots_link.innerHTML = "http://127.0.0.1:5000/get_ots/" + ots_id;
+                    ots_pwd.innerHTML = ots_key1;
+
+                    console.log(data);
+                });
+            })
+            .catch(function (error) {
+                console.log("Fetch error: " + error);
+            });
+    });
+
+});
+
+
+    </script>
+{% endblock script %}

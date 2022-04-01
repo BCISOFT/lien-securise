@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- ======= Head ======= -->
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>{% block title %}Lien Sécurisé{% endblock %}</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  {% include 'layouts/partials/head.html' %}
+</head>
+
+<body on>
+
+{% block header %}
+<!-- ======= Header ======= -->
+    <header id="header" class="header fixed-top" data-scrollto-offset="0">
+        <div class="container-fluid d-flex align-items-center justify-content-between">
+          <a href="{{ url_for('home')}}" class="logo d-flex align-items-center scrollto me-auto me-lg-0">
+            <!-- Uncomment the line below if you also wish to use an image logo -->
+            <img src="{{ url_for('static', filename='/img/logo_bcisoft.png')}}" alt="logo_bci_soft">
+          </a>
+<!-- ======= Nav ======= -->
+        {% block navigation %}
+        {#   include 'layouts/partials/nav.html' #}
+        {% endblock navigation %}
+        </div>
+    </header>
+{% endblock header %}
+
+{% block presentation %}
+{% endblock presentation %}
+
+{% block infos %}
+    <main id="main">
+        {% include 'layouts/partials/about.html' %}
+<!--====== Services ====== -->
+        {% include 'layouts/partials/services.html' %}
+    </main>
+{% endblock infos %}
+
+<!-- ======= Footer ======= -->
+    <footer id="footer" class="footer">
+        <div class="footer-legal text-center">
+          <div class="container d-flex flex-column flex-lg-row justify-content-center justify-content-lg-between align-items-center">
+            {% block Credits %}
+                <div class="d-flex flex-column align-items-center align-items-lg-start">
+                  <div class="copyright">
+                    &copy; Copyright <strong><span>BCI SOFT</span></strong>. All Rights Reserved
+                  </div>
+                  <div class="credits">
+                    Designed by <a href="https://bcisoft.fr/">BCI SOFT</a>
+                  </div>
+                </div>
+            {% endblock Credits %}
+            {% block Reseaux %}
+                <div class="social-links order-first order-lg-last mb-3 mb-lg-0">
+                  <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+                  <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+                  <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+                  <a href="#" class="google-plus"><i class="bi bi-skype"></i></a>
+                  <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+                </div>
+            {% endblock Reseaux %}
+          </div>
+        </div>
+    </footer><!-- End Footer -->
+
+  <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="{{ url_for('static', filename='js/jquery-3.6.0.min.js')}}"></script>
+  <!-- Get sjcl.js from https://github.com/bitwiseshiftleft/sjcl -->
+  <script src="{{ url_for('static', filename='js/sjcl.js')}}"></script>
+    <!-- Get seedrandom.min.js from https://github.com/davidbau/seedrandom -->
+  <script src="{{ url_for('static', filename='js/seedrandom.min.js')}}"></script>
+  <script src="{{ url_for('static', filename='js/bootstrap/bootstrap.bundle.min.js')}}"></script>
+  <script src="{{ url_for('static', filename='js/aos.js')}}"></script>
+  <script src="{{ url_for('static', filename='js/glightbox.min.js')}}"></script>
+  <script src="{{ url_for('static', filename='js/isotope.pkgd.min.js')}}"></script>
+  <script src="{{ url_for('static', filename='js/swiper-bundle.min.js')}}"></script>
+  <script src="{{ url_for('static', filename='js/compteur.js')}}"></script>
+  <script>
+      $SCRIPT_ROOT = {{ request.script_root|tojson }};
+  </script>
+  <!-- Template Main JS File -->
+  <script src="{{ url_for('static', filename='/js/main.js')}}"></script>
+
+<!--====== Scripts ====== -->
+{% block script %}{% endblock script %}
+
+
+</body>
+
+</html>

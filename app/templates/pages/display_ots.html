@@ -1,0 +1,93 @@
+{% extends "layouts/default.html" %}
+
+{% block title %}OTS{% endblock %}
+
+{% block header %}
+    <header id="header" class="header fixed-top" data-scrollto-offset="0">
+        <div class="row">
+            <div class="row-logo">
+              <a href="{{ url_for('home')}}" class="logo scrollto me-auto me-lg-0">
+                <!-- Uncomment the line below if you also wish to use an image logo -->
+                <img src="{{ url_for('static', filename='/img/logo_bcisoft.png')}}" alt="logo_bci_soft">
+              </a>
+            </div>
+        </div>
+        <div class="row row-lect">
+            <div class="lect">
+                 <h2>L I E N  <span><span></span>SECURISE</span></h2>
+            </div>
+        </div>
+    </header>
+{% endblock header %}
+
+{% block presentation %}
+    <section id="hero-static" class="hero-static d-flex align-items-center">
+        <div class="container d-flex flex-column justify-content-center align-items-center text-center position-relative" data-aos="zoom-out">
+            <h3>Vous avez reçu le message suivant</h3>
+                <p>Veuillez saisir votre mot de passe pour continuer:</p>
+
+                {% block formulaire %}
+                    <div class="container">
+                      <div class="row">
+                        <div class="col">
+                            <form id="get_ots_form" action="" method="post" class="mb-3">
+                                <div class="form-group">
+                                    <input type="text" name="ots_pwd" id="ots_pwd"/>
+                                </div>
+                                 <div class="form-group">
+                                        <input type="hidden" name="ots_id" value="{{ ots_id }}" id="ots_id"/>
+                                        <input type="hidden" name="ots_content" value="{{ ots_content }}" id="ots_content"/>
+                                        <input type="hidden" name="ots_key2" value="{{ ots_key2 }}" id="ots_key2"/>
+                                        <input type="hidden" name="ots_date_creation" value="{{ ots_date_creation }}" id="ots_date_creation"/>
+                                        <input type="hidden" name="ots_date_limite" value="{{ ots_date_limite}}" id="ots_date_limite"/>
+                                 </div>
+                                <button type="submit" class="btn-primary" id="submit" >Lire votre message</button>
+                            </form>
+                            <div class="alert alert-info" role="alert" id="decryptage" readonly = "readonly"></div>
+
+                        </div>
+                      </div>
+                    </div>
+                {% endblock formulaire%}
+        </div>
+    </section>
+{% endblock presentation %}
+
+{% block infos %}
+    <main id="main">
+        {% include 'layouts/partials/about.html' %}
+<!--====== Services ====== -->
+        {% include 'layouts/partials/services.html' %}
+    </main>
+{% endblock infos %}
+{% block Reseaux %}{% endblock Reseaux %}
+
+{%  block script %}
+    <script>
+    $(document).ready(function () {
+
+        var ots_id = document.getElementById("ots_id");
+        var monCipher = (document.getElementById("ots_content").value);
+        var ots_date_creation = document.getElementById("ots_date_creation");
+        var ots_date_limite = document.getElementById("ots_date_limite");
+        var ots_key1 = (document.getElementById("ots_pwd"));
+        var ots_key2 = (document.getElementById("ots_key2"));
+
+
+        $("#submit").click(function (e) {
+            e.preventDefault();
+            var monPlaint = sjcl.decrypt(ots_key1.value + ots_key2.value, atob(monCipher));
+            var decryptage=document.getElementById(decryptage)
+            var datedujour=new Date();
+            var jsdatelimite= new Date(ots_date_limite.value);
+            var ots_result = document.getElementById("decryptage");
+
+            if(jsdatelimite<datedujour){
+                ots_result.innerHTML ='date limite dépassée'
+            }else{
+                ots_result.innerHTML = monPlaint;
+            }
+        });
+    });
+    </script>
+{% endblock script %}
