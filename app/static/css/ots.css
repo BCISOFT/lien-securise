@@ -48,7 +48,7 @@ h3{
     flex-wrap: nowrap;
     margin-right: 0;
     margin-left: 0;
-    justify-content: space-evenly;
+    justify-content: space-around;
 }
 
 /* ====== Steps ======*/
@@ -59,21 +59,21 @@ h3{
     color: #848484;
 }
 
-.steps .tab{
-    padding-right: 1rem;
-    padding-left: .5rem;
-    position: relative;
-}
+/*.steps .tab{*/
+/*    padding-right: 1rem;*/
+/*    padding-left: .5rem;*/
+/*    position: relative;*/
+/*}*/
 
-.steps :after{
-    position: absolute;
-    width: 1px;
-    height: 30px;
-    content:"";
-    background: #ebebeb;
-    right: 18px;
-    top:50px;
-}
+/*.steps :after{*/
+/*    position: absolute;*/
+/*    width: 1px;*/
+/*    height: 30px;*/
+/*    content:"";*/
+/*    background: #ebebeb;*/
+/*    right: 18px;*/
+/*    top:50px;*/
+/*}*/
 .title{
     align-items: center;
     -webkit-align-items: center;
