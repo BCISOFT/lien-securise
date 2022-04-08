@@ -51,6 +51,14 @@
                                              </div>
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-12 mt-4">
+                                             <div class="input-group">
+                                                 <textarea id="custom_message" type="text" class="form-control custom-control" rows="8" style="resize:none" readonly="true"></textarea>
+                                                 <span id="cpy-message" class="input-group-addon btn cpy d-flex align-items-center" type="button"><span> Copiez </span></span>
+                                             </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </fieldsset>
 
@@ -162,6 +170,10 @@ $(document).ready(function () {
              $('#cpy-pwd').click(function () {
                  copyToClipboard($('#link_to_pwd').val());
              });
+
+             $('#cpy-message').click(function () {
+                 copyToClipboard($('#custom_message').val());
+             });
          }
      });
 
@@ -196,6 +208,7 @@ $(document).ready(function () {
 
         var ots_link = document.getElementById("link_to_secret");
         var ots_pwd = document.getElementById("link_to_pwd");
+        var ots_message = document.getElementById("custom_message");
 
         var secret = {
             ots_id: ots_id.value,
@@ -225,6 +238,8 @@ $(document).ready(function () {
                     ots_link.readonly=true;
                     ots_pwd.value = ots_key1;
                     ots_pwd.readonly=true;
+                    ots_message.value = "Vous pouvez consulter votre message sécurisé en cliquant sur ce lien à usage unique: " + ots_link.value + "\n\net en utilisant ce mot de passe: " + ots_key1 + "\n\nLe lien est consultable une seule fois et n'est valable que durant " + ots_lifetime.value + " jours, une fois consulté ou le délai dépassé il ne sera plus accessible.";
+                    ots_message.readonly=true;
                     step1.classList.toggle('current');
                     step2.classList.toggle('current');
                     ots_lifetime.disabled = true;

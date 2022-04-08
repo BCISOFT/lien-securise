@@ -31,20 +31,23 @@
                       <div class="row">
                         <div class="col">
                             <form id="get_ots_form" action="" method="post" class="mb-3">
-                                <div class="form-group">
-                                    <input type="text" name="ots_pwd" id="ots_pwd"/>
+                                <div class="row">
+                                    <div class="col-12">
+                                         <div class="input-group">
+                                            <input type="text" name="ots_pwd" id="ots_pwd" class="form-control">
+                                            <input type="hidden" name="ots_id" value="{{ ots_id }}" id="ots_id"/>
+                                            <input type="hidden" name="ots_content" value="{{ ots_content }}" id="ots_content"/>
+                                            <input type="hidden" name="ots_key2" value="{{ ots_key2 }}" id="ots_key2"/>
+                                            <input type="hidden" name="ots_date_creation" value="{{ ots_date_creation }}" id="ots_date_creation"/>
+                                            <input type="hidden" name="ots_date_limite" value="{{ ots_date_limite}}" id="ots_date_limite"/>
+                                            <span class="input-group-btn">
+                                               <button type="submit" id="submit" class="btn cpy">Lire votre message</button>
+                                            </span>
+                                         </div>
+                                    </div>
                                 </div>
-                                 <div class="form-group">
-                                        <input type="hidden" name="ots_id" value="{{ ots_id }}" id="ots_id"/>
-                                        <input type="hidden" name="ots_content" value="{{ ots_content }}" id="ots_content"/>
-                                        <input type="hidden" name="ots_key2" value="{{ ots_key2 }}" id="ots_key2"/>
-                                        <input type="hidden" name="ots_date_creation" value="{{ ots_date_creation }}" id="ots_date_creation"/>
-                                        <input type="hidden" name="ots_date_limite" value="{{ ots_date_limite}}" id="ots_date_limite"/>
-                                 </div>
-                                <button type="submit" class="btn-primary" id="submit" >Lire votre message</button>
                             </form>
-                            <div class="alert alert-info" role="alert" id="decryptage" readonly = "readonly"></div>
-
+                            <textarea id="decryptage" class="form-control custom-control" rows="10" style="resize:none" readonly="true"></textarea>
                         </div>
                       </div>
                     </div>
@@ -58,6 +61,8 @@
         {% include 'layouts/partials/about.html' %}
 <!--====== Services ====== -->
         {% include 'layouts/partials/services.html' %}
+<!--====== FAQ ====== -->
+        {% include 'layouts/partials/faq.html' %}
     </main>
 {% endblock infos %}
 {% block Reseaux %}{% endblock Reseaux %}
