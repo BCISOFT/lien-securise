@@ -4,7 +4,7 @@ from datetime import datetime
 
 class OTS(db.Model):
     ots_id = db.Column(db.String(250), primary_key=True)
-    ots_content = db.Column(db.String(1024), nullable=False)
+    ots_content = db.Column(db.String(65000), nullable=False)
     ots_key2 = db.Column(db.String(250), unique=True, nullable=False)
     ots_date_fin = db.Column(db.DateTime(), default=datetime.utcnow, nullable=False)
 
