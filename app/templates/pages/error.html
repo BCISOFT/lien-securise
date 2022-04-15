@@ -1,0 +1,40 @@
+{% extends "layouts/default.html" %}
+
+
+{% block navigation %}
+    {% include 'layouts/partials/nav.html' %}
+{% endblock navigation %}
+
+{% block presentation %}
+    <section id="hero-static" class="hero-static d-flex align-items-center">
+        <div class="container d-flex flex-column justify-content-center align-items-center text-center position-relative" data-aos="zoom-out">
+          <h2>L I E N  <span><span></span>SECURISE</span></h2>
+            <h3>Erreur lors de la récupération de votre message</h3>
+                <p>Votre message n'a pas pu être récupéré pour l'une des raisons suivantes</p>
+                <ul class="list-unstyled mb-5">
+                    <li>Vous avez déjà récupéré votre message</li>
+                    <li>Le délai pour récupérer votre message est dépassé</li>
+                    <li>Il y a une erreur dans l'identifiant de votre lien sécurisé</li>
+                </ul>
+            <a href="/" class="dd-flex align-items-center justify-content-center btn-get-started creator">Créer un lien sécurisé</a>
+        </div>
+    </section>
+{% endblock presentation %}
+
+{% block infos %}
+    <main id="main">
+        {% include 'layouts/partials/about.html' %}
+<!--====== Services ====== -->
+        {% include 'layouts/partials/services.html' %}
+<!--====== FAQ ====== -->
+        {% include 'layouts/partials/faq.html' %}
+    </main>
+{% endblock infos %}
+
+{% block Reseaux %}{% endblock Reseaux %}
+
+
+
+
+{%  block script %}
+{% endblock script %}

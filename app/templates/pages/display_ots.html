@@ -91,6 +91,18 @@
                 ots_result.innerHTML ='date limite dépassée'
             }else{
                 ots_result.innerHTML = monPlaint;
+                var secret = {
+                    ots_id: ots_id.value,
+                };
+                fetch('/delete_ots', {
+                    method: 'POST',
+                    credentials: "include",
+                    body: JSON.stringify(secret),
+                    cache: "no-cache",
+                    headers: new Headers({
+                        "content-type": "application/json"
+                    })
+                })
             }
         });
     });

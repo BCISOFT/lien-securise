@@ -36,7 +36,7 @@
                                          <div class="input-group">
                                             <input id="link_to_secret" type="text" class="form-control" readonly="true">
                                             <span class="input-group-btn">
-                                                <button id="cpy-link" class="btn cpy" type="button"><i class="far fa-clone"></i> Copiez </button>
+                                                <button id="cpy-link" class="btn cpy" type="button"> Copier </button>
                                             </span>
                                          </div>
                                       </div>
@@ -46,7 +46,7 @@
                                              <div class="input-group">
                                                 <input id="link_to_pwd" type="text" class="form-control" readonly="true">
                                                 <span class="input-group-btn">
-                                                   <button  id="cpy-pwd" class="btn cpy" type="button"><i class="far fa-clone"></i> Copiez </button>
+                                                   <button  id="cpy-pwd" class="btn cpy" type="button"> Copier </button>
                                                 </span>
                                              </div>
                                         </div>
@@ -55,7 +55,7 @@
                                         <div class="col-12 mt-4">
                                              <div class="input-group">
                                                  <textarea id="custom_message" type="text" class="form-control custom-control" rows="8" style="resize:none" readonly="true"></textarea>
-                                                 <span id="cpy-message" class="input-group-addon btn cpy d-flex align-items-center" type="button"><span> Copiez </span></span>
+                                                 <span id="cpy-message" class="input-group-addon btn cpy d-flex align-items-center" type="button"><span> Copier </span></span>
                                              </div>
                                         </div>
                                     </div>
@@ -68,13 +68,13 @@
                                     <div class="control-group">
                                         <label for="ttl">Expiration :</label>
                                         <select id="lifetime" name="ttl" class="span3">
-                                            <option value="7" selected="">7 jours</option>
-                                            <option value="6">6 jours</option>
-                                            <option value="5">5 jours</option>
-                                            <option value="4">4 jours</option>
-                                            <option value="3">3 jours</option>
-                                            <option value="2">2 jours</option>
                                             <option value="1">1 jour</option>
+                                            <option value="2">2 jours</option>
+                                            <option value="3">3 jours</option>
+                                            <option value="4">4 jours</option>
+                                            <option value="5">5 jours</option>
+                                            <option value="6">6 jours</option>
+                                            <option value="7" selected="">7 jours</option>
                                         </select>
                                     </div>
                                     <p id="txt_delai"class="avert">Passé ce délai, le message sera totalement détruit.</p>
@@ -85,8 +85,8 @@
                                     <input type="hidden" name="ots_key2" value="{{ ots_key2 }}" id="ots_key2"/>
                                 </div>
                             </fieldset>
-                            <button type="submit" class="dd-flex align-items-center justify-content-center btn-get-started creator" id="ots-submit">Creer un lien sécurisé</button>
-                            <a href="/" class="dd-flex align-items-center justify-content-center btn-get-started creator d-none" id="ots-create-new">Creer un nouveau lien sécurisé</a>
+                            <button type="submit" class="dd-flex align-items-center justify-content-center btn-get-started creator" id="ots-submit">Créer un lien sécurisé</button>
+                            <a href="/" class="dd-flex align-items-center justify-content-center btn-get-started creator d-none" id="ots-create-new">Créer un nouveau lien sécurisé</a>
                         </form>
 
 
@@ -159,10 +159,6 @@ $(document).ready(function () {
          if (result.state == "granted" || result.state == "prompt") {
              var btnPwd = document.getElementById('cpy-pwd');
              var btnLink = document.getElementById('cpy-link');
-             btnPwd.innerHTML="Copier";
-             btnPwd.disabled = false;
-             btnLink.innerHTML="Copier";
-             btnLink.disabled = false;
 
              $('#cpy-link').click(function () {
                  copyToClipboard($('#link_to_secret').val());
@@ -194,67 +190,71 @@ $(document).ready(function () {
 
     $("#ots-submit").click(function (e) {
         e.preventDefault();
-        var ots_id = document.getElementById("ots_id");
         var ots_content = document.getElementById("ots_content");
-        var ots_key1 = btoa($.fn.generate_string(18, "all"));
-        var ots_key2 = btoa($.fn.generate_string(18, "all"));
-        var monCipher = btoa(sjcl.encrypt(ots_key1 + ots_key2, ots_content.value));
-        var monPlaint = sjcl.decrypt(ots_key1 + ots_key2, atob(monCipher));
-        var ots_lifetime = document.getElementById('lifetime');
-        var step1 = document.getElementById('step1');
-        var step2 = document.getElementById('step2');
-        var step3 = document.getElementById('step3');
-        var btnCreer = document.getElementById('ots-submit');
-        var btnCreateNew = document.getElementById('ots-create-new');
-        var dicCipher = atob(monCipher);
 
-        var ots_link = document.getElementById("link_to_secret");
-        var ots_pwd = document.getElementById("link_to_pwd");
-        var ots_message = document.getElementById("custom_message");
+        if (ots_content.value.length > 0) {
+            var ots_id = document.getElementById("ots_id");
+            var ots_key1 = btoa($.fn.generate_string(18, "all"));
+            var ots_key2 = btoa($.fn.generate_string(18, "all"));
+            var monCipher = btoa(sjcl.encrypt(ots_key1 + ots_key2, ots_content.value));
+            var monPlaint = sjcl.decrypt(ots_key1 + ots_key2, atob(monCipher));
+            var ots_lifetime = document.getElementById('lifetime');
+            var step1 = document.getElementById('step1');
+            var step2 = document.getElementById('step2');
+            var step3 = document.getElementById('step3');
+            var btnCreer = document.getElementById('ots-submit');
+            var btnCreateNew = document.getElementById('ots-create-new');
+            var dicCipher = atob(monCipher);
 
-        var secret = {
-            ots_id: ots_id.value,
-            ots_content: monCipher,
-            ots_key2: ots_key2,
-            ots_lifetime: ots_lifetime.value
-        };
-        fetch('/create-secret', {
-            method: 'POST',
-            credentials: "include",
-            body: JSON.stringify(secret),
-            cache: "no-cache",
-            headers: new Headers({
-                "content-type": "application/json"
+            var ots_link = document.getElementById("link_to_secret");
+            var ots_pwd = document.getElementById("link_to_pwd");
+            var ots_message = document.getElementById("custom_message");
+
+            var secret = {
+                ots_id: ots_id.value,
+                ots_content: monCipher,
+                ots_key2: ots_key2,
+                ots_lifetime: ots_lifetime.value
+            };
+            fetch('/create-secret', {
+                method: 'POST',
+                credentials: "include",
+                body: JSON.stringify(secret),
+                cache: "no-cache",
+                headers: new Headers({
+                    "content-type": "application/json"
+                })
             })
-        })
-            .then(function (response) {
-                if (response.status !== 200) {
-                    console.log('Looks like there was a problem. Status code: ${response.status}');
-                    return;
-                }
-                response.json().then(function (data) {
-                    $('#saisie-message').hide();
-                    $('#link2ots').show();
-                    ots_id = ots_id.value;
-                    ots_link.value="https://lien-securise.bcisoft.fr/get_ots/" + ots_id;
-                    ots_link.readonly=true;
-                    ots_pwd.value = ots_key1;
-                    ots_pwd.readonly=true;
-                    ots_message.value = "Vous pouvez consulter votre message sécurisé en cliquant sur ce lien à usage unique: " + ots_link.value + "\n\net en utilisant ce mot de passe: " + ots_key1 + "\n\nLe lien est consultable une seule fois et n'est valable que durant " + ots_lifetime.value + " jours, une fois consulté ou le délai dépassé il ne sera plus accessible.";
-                    ots_message.readonly=true;
-                    step1.classList.toggle('current');
-                    step2.classList.toggle('current');
-                    ots_lifetime.disabled = true;
-                    btnCreer.disabled = true;
-                    btnCreer.classList.add('d-none');
-                    btnCreateNew.classList.remove('d-none');
+                .then(function (response) {
+                    if (response.status !== 200) {
+                        console.log('Looks like there was a problem. Status code: ${response.status}');
+                        return;
+                    }
+                    response.json().then(function (data) {
+                        $('#saisie-message').hide();
+                        $('#link2ots').show();
+                        ots_id = ots_id.value;
+                        ots_link.value="https://lien-securise.bcisoft.fr/get_ots/" + ots_id;
+                        ots_link.readonly=true;
+                        ots_pwd.value = ots_key1;
+                        ots_pwd.readonly=true;
+                        ots_message.value = "Vous pouvez consulter votre message sécurisé en cliquant sur ce lien à usage unique: " + ots_link.value + "\n\net en utilisant ce mot de passe: " + ots_key1 + "\n\nLe lien est consultable une seule fois et n'est valable que durant " + ots_lifetime.value + " jours, une fois consulté ou le délai dépassé il ne sera plus accessible.";
+                        ots_message.readonly=true;
+                        step1.classList.toggle('current');
+                        step2.classList.toggle('current');
+                        ots_lifetime.disabled = true;
+                        btnCreer.disabled = true;
+                        btnCreer.classList.add('d-none');
+                        btnCreateNew.classList.remove('d-none');
 
-                    console.log(data);
+                        console.log(data);
+                    });
+                })
+                .catch(function (error) {
+                    console.log("Fetch error: " + error);
                 });
-            })
-            .catch(function (error) {
-                console.log("Fetch error: " + error);
-            });
+        }
+
     });
 });
 

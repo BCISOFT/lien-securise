@@ -30,12 +30,6 @@ def is_valid(ots_id):
 
 @app.route('/')
 def home():
-    currrent_time = datetime.utcnow()
-
-    # ots_to_delete=OTS.query.filter(OTS.created_at < currrent_time - timedelta(days=7)).all()
-    # for ots in ots_to_delete:
-    #     db.session.delete(ots)
-    #     db.session.commit()
     ots_id = create_id()
     print(ots_id)
     return render_template("pages/home.html", ots_id=create_id())
@@ -75,8 +69,6 @@ def display_ots(ots_id):
     ots_exists = bool(OTS.query.filter_by(ots_id=ots_id).first())
     if ots_exists:
         ots_to_display = OTS.query.get(ots_id)
-        db.session.query(OTS).filter(OTS.ots_id == ots_id).delete()
-        db.session.commit()
         current_time = datetime.utcnow()
         date_fin = ots_to_display.ots_date_fin
         if date_fin >= current_time:
@@ -84,12 +76,17 @@ def display_ots(ots_id):
                                    ots_content=ots_to_display.ots_content, ots_key2=ots_to_display.ots_key2,
                                    ots_date_fin=ots_to_display.ots_date_fin)
         else:
-            # ==================================================#
-            # return render_template ("pages/error.html")
-            # ==================================================#
-            return "Il y a eu un problème lors de la lecture de votre message"
+            return render_template("pages/error.html")
     else:
-        # ==================================================#
-        # return render_template ("pages/error.html")
-        # ==================================================#
-        return "Il y a eu un problème lors de la lecture de votre message"
+        return render_template("pages/error.html")
+
+
+@app.route('/delete_ots', methods=['POST'])
+def delete_ots():
+    if request.method == 'POST':
+        data = request.get_json()
+        ots_exists = bool(OTS.query.filter_by(ots_id=data['ots_id']).first())
+        if ots_exists:
+            db.session.query(OTS).filter(OTS.ots_id == data['ots_id']).delete()
+            db.session.commit()
+            return {"message": f"Your message is deleted!!"}
