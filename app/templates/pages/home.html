@@ -25,7 +25,7 @@
                                 <div class="form-group" id="saisie-message">
                                     <textarea class="form-control" autocomplete="off" autofocus
                                               type="text" placeholder="Ecrivez votre message ici" name="ots_content" id="ots_content"
-                                              rows="6" cols="30" maxlength="1024"
+                                              rows="6" cols="30" maxlength="4096"
                                     ></textarea>
                                     <p id="txt_compteur">Il vous reste <span id="compteur"></span><span id="fin_txt_compteur"></span>
                                 </div>
@@ -39,6 +39,8 @@
                                                 <button id="cpy-link" class="btn cpy" type="button"> Copier </button>
                                             </span>
                                          </div>
+                                          <span class="clearfix"></span>
+                                          <span id="link-copied" class="copied" style="display: none">Lien copié dans le presse papier!</span>
                                       </div>
                                     </div>
                                     <div class="row">
@@ -49,6 +51,8 @@
                                                    <button  id="cpy-pwd" class="btn cpy" type="button"> Copier </button>
                                                 </span>
                                              </div>
+                                          <span class="clearfix"></span>
+                                          <span id="password-copied" class="copied" style="display: none">Mot de passe copié dans le presse papier!</span>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -58,6 +62,8 @@
                                                  <span id="cpy-message" class="input-group-addon btn cpy d-flex align-items-center" type="button"><span> Copier </span></span>
                                              </div>
                                         </div>
+                                          <span class="clearfix"></span>
+                                          <span id="message-copied" class="copied" style="display: none">Message copié dans le presse papier!</span>
                                     </div>
                                 </div>
                             </fieldsset>
@@ -162,14 +168,17 @@ $(document).ready(function () {
 
              $('#cpy-link').click(function () {
                  copyToClipboard($('#link_to_secret').val());
+                 $('#link-copied').show().fadeOut(5000);
              });
 
              $('#cpy-pwd').click(function () {
                  copyToClipboard($('#link_to_pwd').val());
+                 $('#password-copied').show().fadeOut(5000);
              });
 
              $('#cpy-message').click(function () {
                  copyToClipboard($('#custom_message').val());
+                 $('#message-copied').show().fadeOut(5000);
              });
          }
      });
@@ -238,7 +247,7 @@ $(document).ready(function () {
                         ots_link.readonly=true;
                         ots_pwd.value = ots_key1;
                         ots_pwd.readonly=true;
-                        ots_message.value = "Vous pouvez consulter votre message sécurisé en cliquant sur ce lien à usage unique: " + ots_link.value + "\n\net en utilisant ce mot de passe: " + ots_key1 + "\n\nLe lien est consultable une seule fois et n'est valable que durant " + ots_lifetime.value + " jours, une fois consulté ou le délai dépassé il ne sera plus accessible.";
+                        ots_message.value = "Vous pouvez consulter votre message sécurisé en cliquant sur ce lien à usage unique:\n" + ots_link.value + "\n\net en utilisant ce mot de passe: " + ots_key1 + "\n\nLe lien est consultable une seule fois et n'est valable que durant " + ots_lifetime.value + " jours, une fois consulté ou le délai dépassé il ne sera plus accessible.";
                         ots_message.readonly=true;
                         step1.classList.toggle('current');
                         step2.classList.toggle('current');

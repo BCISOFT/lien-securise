@@ -34,14 +34,14 @@
                                 <div class="row">
                                     <div class="col-12">
                                          <div class="input-group">
-                                            <input type="text" name="ots_pwd" id="ots_pwd" class="form-control">
+                                            <input type="text" name="ots_pwd" id="ots_pwd" class="form-control" placeholder="Votre mot de passe...">
                                             <input type="hidden" name="ots_id" value="{{ ots_id }}" id="ots_id"/>
                                             <input type="hidden" name="ots_content" value="{{ ots_content }}" id="ots_content"/>
                                             <input type="hidden" name="ots_key2" value="{{ ots_key2 }}" id="ots_key2"/>
                                             <input type="hidden" name="ots_date_creation" value="{{ ots_date_creation }}" id="ots_date_creation"/>
                                             <input type="hidden" name="ots_date_limite" value="{{ ots_date_limite}}" id="ots_date_limite"/>
                                             <span class="input-group-btn">
-                                               <button type="submit" id="submit" class="btn cpy">Lire votre message</button>
+                                               <button type="submit" id="submit" class="btn cpy" disabled>Lire votre message</button>
                                             </span>
                                          </div>
                                     </div>
@@ -77,6 +77,12 @@
         var ots_date_limite = document.getElementById("ots_date_limite");
         var ots_key1 = (document.getElementById("ots_pwd"));
         var ots_key2 = (document.getElementById("ots_key2"));
+
+        $(document).on("keyup", "#ots_pwd", function (){
+            if (document.getElementById("ots_pwd").value.length > 0) {
+                $("#submit").prop('disabled', false);
+            }
+        });
 
 
         $("#submit").click(function (e) {

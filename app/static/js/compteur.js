@@ -1,7 +1,7 @@
 window.addEventListener('load', (event) =>{
     if (document.getElementById("compteur") !== null) {
         let zoneMessage=document.getElementById("ots_content");
-        let NbreMax = 1024;
+        let NbreMax = 4096;
         document.getElementById("compteur").innerHTML = NbreMax;
         document.getElementById("fin_txt_compteur").innerHTML= ' caractères';
 
